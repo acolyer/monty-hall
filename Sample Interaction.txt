@@ -1,0 +1,81 @@
+$>curl -X POST -I http://localhost:8080/monty-hall/games
+
+HTTP/1.1 201 Created
+Server: Apache-Coyote/1.1
+Location: http://localhost:8080/monty-hall/games/2863629425905948275
+Content-Length: 0
+Date: Mon, 01 Oct 2012 17:58:59 GMT
+
+$>curl http://localhost:8080/monty-hall/games/2863629425905948275
+
+{"links":
+	[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275"},
+	 {"rel":"doors","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors"},
+	 {"rel":"history","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"}],
+ "status":"AWAITING_INITIAL_SELECTION"}
+
+$>url http://localhost:8080/monty-hall/games/2863629425905948275/doors
+
+{"links":
+     [{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors"}],
+ "doors":[
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/1"}],
+    "status":"CLOSED","content":"UNKNOWN"},
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/2"}],
+    "status":"CLOSED","content":"UNKNOWN"},
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/3"}],
+    "status":"CLOSED","content":"UNKNOWN"}]
+}
+
+$>curl -X PUT -H "Content-Type: application/json" -d "{\"status\":\"SELECTED\"}" http://localhost:8080/monty-hall/games/2863629425905948275/doors/1
+
+{"links":
+   [{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/1"}],
+ "status":"SELECTED","content":"UNKNOWN"}
+
+$>curl http://localhost:8080/monty-hall/games/2863629425905948275/history
+
+{"links":
+  [{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"}],
+ "events":["SELECTED_DOOR_ONE","REVEALED_DOOR_THREE"]}
+
+$>curl http://localhost:8080/monty-hall/games/2863629425905948275/doors
+
+{"links":
+     [{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors"}],
+ "doors":[
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/1"}],
+    "status":"SELECTED","content":"UNKNOWN"},
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/2"}],
+    "status":"CLOSED","content":"UNKNOWN"},
+   {"links":[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/3"}],
+    "status":"OPENED","content":"SMALL_FURRY_ANIMAL"}]
+}
+
+$>curl -X PUT -H "Content-Type: application/json" -d "{\"status\":\"OPENED\"}" http://localhost:8080/monty-hall/games/2863629425905948275/doors/2
+
+{"links":[
+   {"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors/2"}],
+ "status":"OPENED","content":"SMALL_FURRY_ANIMAL"}
+
+$>curl http://localhost:8080/monty-hall/games/2863629425905948275
+
+{"links":[
+   {"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275"},
+   {"rel":"doors","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors"},
+   {"rel":"history","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"}],
+ "status":"LOST"}
+
+$>curl http://localhost:8080/monty-hall/games/2863629425905948275/history
+
+{"links":
+  [{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"}],
+ "events":["SELECTED_DOOR_ONE","REVEALED_DOOR_THREE", "OPENED_DOOR_TWO","LOST"]}
+
+$>curl -X POST -i -H "Content-Type: application/json" -d "{\"data\":\"OPENED AND SHUT\"}" http://localhost:8080/monty-hall/games/3144502268854998881/clicks
+
+HTTP/1.1 201 Created
+Server: Apache-Coyote/1.1
+Content-Length: 0
+Date: Mon, 01 Oct 2012 18:37:39 GMT
+

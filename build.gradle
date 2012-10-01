@@ -1,0 +1,50 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'cloudfoundry'
+
+apply from: 'cargo.gradle'
+
+repositories {
+	mavenCentral()
+
+	maven { url 'http://repo.springsource.org/libs-snapshot' }
+	maven { url 'http://repo.springsource.org/libs-milestone'}
+}
+
+dependencies {
+	compile 'org.springframework:spring-context:3.1.0.RELEASE'
+	compile 'org.springframework:spring-webmvc:3.1.0.RELEASE'
+	compile 'org.springframework.hateoas:spring-hateoas:0.3.0.BUILD-SNAPSHOT'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.9'
+	compile 'cglib:cglib-nodep:2.2'
+	providedCompile 'org.mortbay.jetty:servlet-api:3.0.20100224'
+	testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+cloudfoundry {
+	username = "$cloudfoundryUserName"
+	password = "$cloudfoundryPassword"
+        application = "$cloudfoundryAppName"
+        target = "$cloudfoundryTarget"
+        framework = "spring"
+        file = new File('build/libs/monty-hall.war')
+}
+
+buildscript {
+
+  repositories {
+	add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+		name = 'GitHub'
+		addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+	}
+        mavenCentral()
+        maven { url 'http://maven.springframework.org/milestone' }
+
+  }	
+
+  dependencies {
+	classpath 'bmuschko:gradle-cargo-plugin:0.5.2'
+	classpath 'org.gradle.api.plugins:gradle-cf-plugin:0.2.0'
+  }
+}
+
