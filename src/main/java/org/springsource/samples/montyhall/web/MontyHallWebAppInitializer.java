@@ -18,22 +18,22 @@ import java.util.Set;
  */
 public class MontyHallWebAppInitializer implements WebApplicationInitializer {
 
-  @java.lang.Override
-  public void onStartup(ServletContext servletContext) throws ServletException {
-	  // Spring annotation based configuration from the 'config' package
-	  AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
-	  root.scan("org.springsource.samples.montyhall.config");
+	@java.lang.Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		// Spring annotation based configuration from the 'config' package
+		AnnotationConfigWebApplicationContext root = new AnnotationConfigWebApplicationContext();
+		root.scan("org.springsource.samples.montyhall.config");
 
-	  // Servlet setup...
-	  servletContext.addListener(new ContextLoaderListener(root));
+		// Servlet setup...
+		servletContext.addListener(new ContextLoaderListener(root));
 
-	  ServletRegistration.Dynamic appServlet = 
-		  servletContext.addServlet("appServlet", new DispatcherServlet(root));
-	  appServlet.setLoadOnStartup(1);
-	  Set<String> mappingConflicts = appServlet.addMapping("/");
-	  if ( !mappingConflicts.isEmpty() )  {
-		  throw new IllegalStateException ("Could not bind to '/', ensure Tomcat version > 7.0.14 ");
-	  }
-  }
+		ServletRegistration.Dynamic appServlet =
+			servletContext.addServlet("appServlet", new DispatcherServlet(root));
+		appServlet.setLoadOnStartup(1);
+		Set<String> mappingConflicts = appServlet.addMapping("/");
+		if ( !mappingConflicts.isEmpty() )  {
+			throw new IllegalStateException ("Could not bind to '/', ensure Tomcat version > 7.0.14 ");
+		}
+	}
 
 }

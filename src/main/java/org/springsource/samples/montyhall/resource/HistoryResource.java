@@ -10,5 +10,5 @@ public class HistoryResource extends ResourceSupport {
 
 	@JsonProperty("events")
 	GameEvent[] events;
-  
+
 }

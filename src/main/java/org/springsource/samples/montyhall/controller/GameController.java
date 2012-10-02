@@ -44,11 +44,11 @@ public class GameController {
 
 	@Autowired
 	public GameController(GameRepository repo, 
-						  GameResourceAssembler assembler,
-						  DoorResourceAssembler doorAssembler,
-						  DoorsResourceAssembler doorsAssembler,
-						  HistoryResourceAssembler historyAssembler,
-						  ClickStreamService clicks) {
+	                      GameResourceAssembler assembler,
+	                      DoorResourceAssembler doorAssembler,
+	                      DoorsResourceAssembler doorsAssembler,
+	                      HistoryResourceAssembler historyAssembler,
+	                      ClickStreamService clicks) {
 		this.repository = repo;
 		this.gameResourceAssembler = assembler;
 		this.doorResourceAssembler = doorAssembler;
@@ -58,7 +58,7 @@ public class GameController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public HttpEntity createGame() {
+	public HttpEntity<GameResource> createGame() {
 		Game game = new Game();
 		this.repository.storeGame(game);
 		HttpHeaders headers = new HttpHeaders();
@@ -73,7 +73,7 @@ public class GameController {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-		
+
 		GameResource resource = this.gameResourceAssembler.toResource(game);
 		return new ResponseEntity<GameResource>(resource, HttpStatus.OK);
 	}
@@ -85,7 +85,7 @@ public class GameController {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<DoorsResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-		
+
 		DoorsResource resource = this.doorsResourceAssembler.toResource(game);
 		return new ResponseEntity<DoorsResource>(resource, HttpStatus.OK);
 	}
@@ -97,7 +97,7 @@ public class GameController {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-		
+
 		Door door = game.getDoors().get((int)(doorId - 1));
 		DoorResource resource = this.doorResourceAssembler.toResource(game,door);
 		return new ResponseEntity<DoorResource>(resource, HttpStatus.OK);
@@ -105,16 +105,16 @@ public class GameController {
 
 	@RequestMapping(value="/{gameId}/doors/{doorId}", method=RequestMethod.PUT)
 	public HttpEntity<DoorResource> updateDoor(@PathVariable Long gameId, 
-											   @PathVariable Long doorId,
-											   @RequestBody DoorStatusResource doorResource) {
+	                                           @PathVariable Long doorId,
+	                                           @RequestBody DoorStatusResource doorResource) {
 		Game game = this.repository.findById(gameId);
 		if (game == null || doorId < 1 || doorId > 3) {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-		
+
 		Door door = game.getDoors().get((int)(doorId - 1));
-		
+
 		try {
 			if (doorResource.status == DoorStatus.SELECTED) {
 				game.select(door);
@@ -126,7 +126,7 @@ public class GameController {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<DoorResource>(headers, HttpStatus.CONFLICT);					
 		}
-		
+
 		DoorResource resource = this.doorResourceAssembler.toResource(game,door);
 		return new ResponseEntity<DoorResource>(resource, HttpStatus.OK);
 	}
@@ -138,35 +138,35 @@ public class GameController {
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<HistoryResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-  		
+
 		HistoryResource resource = this.historyResourceAssembler.toResource(game);
 		return new ResponseEntity<HistoryResource>(resource, HttpStatus.OK);
 	}
 
-
 	/** and a handler method for the click stream data */
 	@RequestMapping(value="/{id}/clicks", method=RequestMethod.POST)
-	public HttpEntity recordClickStreamData(@PathVariable Long id,
-											@RequestBody ClickStreamResource clicks) {
+	public HttpEntity<GameResource> recordClickStreamData(@PathVariable Long id,
+	                                                      @RequestBody ClickStreamResource clicks) {
 		Game game = this.repository.findById(id);
 		if (game == null) { 
 			HttpHeaders headers = new HttpHeaders();
 			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);		
 		}
-		
+
 		this.clickStreamService.recordClickStream(game,clicks);
 
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<GameResource>(headers, HttpStatus.CREATED);		
 	}
-	
+
 	/** OPTIONS processing for CORS */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value="/**", method=RequestMethod.OPTIONS)
 	public HttpEntity handleOptionsRequest() {
 		// a CORS preflight request will be handled by our interceptor
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Allow","GET, HEAD, POST, PUT, OPTIONS");
-		return new ResponseEntity(headers,HttpStatus.OK);
+		return new ResponseEntity(headers, HttpStatus.OK);
 	}
-	
+
 }

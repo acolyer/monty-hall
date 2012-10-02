@@ -3,6 +3,7 @@ package org.springsource.samples.montyhall.domain;
 import org.springframework.hateoas.Identifiable;
 
 public class Door implements Identifiable<Integer> {
+
 	private final Prize prize;
 	private final int id;
 	private DoorStatus status = DoorStatus.CLOSED;
@@ -34,16 +35,16 @@ public class Door implements Identifiable<Integer> {
 				break;
 			case SELECTED :
 				if (this.status == DoorStatus.OPENED) {
-				       illegalTransitionAttempted = true;
+					illegalTransitionAttempted = true;
 				}
-		 		break;
+				break;
 			case OPENED :
 				break;
 		}
 		if (illegalTransitionAttempted) {
 			throw new IllegalStateException("Cannot transition to " + status + " from " + this.status);
 		}
-		this.status = status;		
+		this.status = status;
 	}
 
 	public void reveal() {

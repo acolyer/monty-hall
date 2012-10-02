@@ -10,10 +10,10 @@ import org.springsource.samples.montyhall.domain.Game;
 @Component
 public class GameResourceAssembler extends ResourceAssemblerSupport<Game, GameResource> {
 
- 	public GameResourceAssembler() {
+	public GameResourceAssembler() {
 		super(GameController.class, GameResource.class);
 	}
-	
+
 	@Override
 	public GameResource toResource(Game game) {
 		GameResource resource = createResource(game);
@@ -22,5 +22,6 @@ public class GameResourceAssembler extends ResourceAssemblerSupport<Game, GameRe
 		resource.add(linkTo(GameController.class).slash(game).slash("history").withRel("history"));
 		return resource;
 	}
+
 }
-	
+
