@@ -7,14 +7,14 @@ dependencies {
 }
 
 cargo {
-	containerId = 'tomcat7x'
+	containerId = 'tomcat6x'
 	port = 8080
 	deployable {
 		context = name
 	}
 
 	local {
-		homeDir = file("$tomcat7")
+		homeDir = file("$tomcat6")
 		log = file('build/tomcat.log')
 	}
 }

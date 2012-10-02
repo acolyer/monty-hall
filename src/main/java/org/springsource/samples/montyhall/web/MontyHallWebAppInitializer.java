@@ -10,6 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import java.util.Set;
 
+/**
+ * For use with Servlet 3.0 and Tomcat 7.
+ * Cloud Foundry does not yet support Tomcat 7 so use web.xml instead when pushing to
+ * the 'spring' runtime on Cloud Foundry. Alternatively package the whole app including tomcat 7 as
+ * a standalone app.
+ */
 public class MontyHallWebAppInitializer implements WebApplicationInitializer {
 
   @java.lang.Override
