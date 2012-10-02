@@ -160,4 +160,13 @@ public class GameController {
 		return new ResponseEntity<GameResource>(headers, HttpStatus.CREATED);		
 	}
 	
+	/** OPTIONS processing for CORS */
+	@RequestMapping(value="/**", method=RequestMethod.OPTIONS)
+	public HttpEntity handleOptionsRequest() {
+		// a CORS preflight request will be handled by our interceptor
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Allow","GET, HEAD, POST, PUT, OPTIONS");
+		return new ResponseEntity(headers,HttpStatus.OK);
+	}
+	
 }
