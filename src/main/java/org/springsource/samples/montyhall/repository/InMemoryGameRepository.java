@@ -13,20 +13,21 @@ public class InMemoryGameRepository implements GameRepository {
 	private Map<Long,Game> games = Collections.synchronizedMap(new HashMap<Long,Game>());
 
 	public Game findById(Long id) {
-	  return this.games.get(id);
+		return this.games.get(id);
 	}
 
 	public void storeGame(Game game) {
-	  if (game.getId() == null) { 
-	    synchronized(games) {
-		Long newId = new Random().nextLong();
-		while ((newId <= 0) || this.games.containsKey(newId)) {
-			newId = new Random().nextLong();
+		if (game.getId() == null) {
+			synchronized(games) {
+				Long newId = new Random().nextLong();
+				while ((newId <= 0) || this.games.containsKey(newId)) {
+					newId = new Random().nextLong();
+				}
+				game.setId(newId);
+				games.put(newId,game);
+			}
 		}
-		game.setId(newId);
-		games.put(newId,game);
-	    }
-	  }
 	}
+
 }
 

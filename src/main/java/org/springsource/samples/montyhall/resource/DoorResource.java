@@ -7,11 +7,11 @@ import org.springsource.samples.montyhall.domain.DoorStatus;
 
 
 public class DoorResource extends ResourceSupport {
-	
+
 	@JsonProperty("status")
 	DoorStatus status;
-	
+
 	@JsonProperty("content")
 	String content;
-  
+
 }

@@ -10,8 +10,9 @@ public class ClickStreamService {
 	public ClickStreamService() {
 		// TODO - inject SI outbound channel
 	}
-	
+
 	public void recordClickStream(Game game, ClickStreamResource clicks) {
 		// TODO, post as message on outbound channel
 	}
+
 }
