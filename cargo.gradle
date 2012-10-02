@@ -14,7 +14,7 @@ cargo {
 	}
 
 	local {
-		homeDir = file('/Users/adrian/ext/apache-tomcat-7.0.30')
+		homeDir = file("$tomcat7")
 		log = file('build/tomcat.log')
 	}
 }
