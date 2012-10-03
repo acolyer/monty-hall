@@ -13,6 +13,8 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	private static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
 	private static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
+	private static final String ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age";
+	private static final String CACHE_SECONDS = "300";
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 
@@ -36,6 +38,7 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 			response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN,origin);
 			response.setHeader(ACCESS_CONTROL_ALLOW_METHODS,"GET, PUT");
 			response.setHeader(ACCESS_CONTROL_ALLOW_HEADERS,acRequestHeaders);
+			response.setHeader(ACCESS_CONTROL_MAX_AGE,CACHE_SECONDS);
 			
 			return false; // Don't continue processing, return to browser immediately
 		}
