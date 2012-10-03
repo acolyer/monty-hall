@@ -13,7 +13,6 @@ public class Game implements Identifiable<Long> {
 	private Door[] doors = new Door[3];
 	private List<GameEvent> history = new ArrayList<GameEvent>();
 
-
 	public Game() {
 		int doorWithJuergen = new Random().nextInt(3);
 		doors[0] = (doorWithJuergen == 0) ? new Door(1,Prize.JUERGEN) : new Door(1,Prize.SMALL_FURRY_ANIMAL);
@@ -45,55 +44,58 @@ public class Game implements Identifiable<Long> {
 		return this.history;
 	}
 
-
 	/** Select a door, and return the door opened by the host */
 	public Door select(Door door) {
-	  if (this.status != GameStatus.AWAITING_INITIAL_SELECTION) {
-		  throw new IllegalStateException("Can't select a door from state " + this.status);
-	  }
-	  
-	  Door toSelect = this.doors[door.getId() - 1]; 
-	  toSelect.setStatus(DoorStatus.SELECTED);
-	  GameEvent selectEvent =  door.getId() == 1 ? GameEvent.SELECTED_DOOR_ONE 
-                                                     : (door.getId() == 2 ? GameEvent.SELECTED_DOOR_TWO : GameEvent.SELECTED_DOOR_THREE);
-	  this.history.add(selectEvent);
+		if (this.status != GameStatus.AWAITING_INITIAL_SELECTION) {
+			throw new IllegalStateException("Can't select a door from state " + this.status);
+		}
 
-      int doorToReveal = new Random().nextInt(3);
-	  while ( (this.doors[doorToReveal] == toSelect) || (this.doors[doorToReveal].getPrize() == Prize.JUERGEN) ) {
-		  doorToReveal = new Random().nextInt(3);
-	  }
-	  Door toReveal = this.doors[doorToReveal];
-      toReveal.reveal();
-	  GameEvent revealEvent = doorToReveal == 0 ? GameEvent.REVEALED_DOOR_ONE
-		                                : (doorToReveal == 1 ? GameEvent.REVEALED_DOOR_TWO : GameEvent.REVEALED_DOOR_THREE);
-	  this.history.add(revealEvent);
-	  this.status = GameStatus.AWAITING_FINAL_SELECTION;
-	  return toReveal;
+		Door toSelect = this.doors[door.getId() - 1];
+		toSelect.setStatus(DoorStatus.SELECTED);
+		GameEvent selectEvent =  door.getId() == 1
+			? GameEvent.SELECTED_DOOR_ONE
+			: (door.getId() == 2 ? GameEvent.SELECTED_DOOR_TWO : GameEvent.SELECTED_DOOR_THREE);
+		this.history.add(selectEvent);
+
+		int doorToReveal = new Random().nextInt(3);
+		while ( (this.doors[doorToReveal] == toSelect) || (this.doors[doorToReveal].getPrize() == Prize.JUERGEN) ) {
+			doorToReveal = new Random().nextInt(3);
+		}
+		Door toReveal = this.doors[doorToReveal];
+		toReveal.reveal();
+		GameEvent revealEvent = doorToReveal == 0
+			? GameEvent.REVEALED_DOOR_ONE
+			: (doorToReveal == 1 ? GameEvent.REVEALED_DOOR_TWO : GameEvent.REVEALED_DOOR_THREE);
+		this.history.add(revealEvent);
+		this.status = GameStatus.AWAITING_FINAL_SELECTION;
+		return toReveal;
 	}
 
 	public GameStatus open(Door door) {
-	  if (this.status != GameStatus.AWAITING_FINAL_SELECTION) {
-		  throw new IllegalStateException("Can't open a door from state " + this.status);
-	  }
-	  Door toOpen = this.doors[door.getId() -1];
-	  toOpen.setStatus(DoorStatus.OPENED);
-	  Prize prize = toOpen.getPrize();
-	  if (prize == Prize.JUERGEN) {
-		  this.status = GameStatus.WON;
-	  }
-	  else {
-		  this.status = GameStatus.LOST;
-	  }
+		if (this.status != GameStatus.AWAITING_FINAL_SELECTION) {
+			throw new IllegalStateException("Can't open a door from state " + this.status);
+		}
+		Door toOpen = this.doors[door.getId() -1];
+		toOpen.setStatus(DoorStatus.OPENED);
+		Prize prize = toOpen.getPrize();
+		if (prize == Prize.JUERGEN) {
+			this.status = GameStatus.WON;
+		}
+		else {
+			this.status = GameStatus.LOST;
+		}
 
-	  GameEvent openEvent = (door.getId() == 1 ? GameEvent.OPENED_DOOR_ONE
-			                           : (door.getId() == 2 ? GameEvent.OPENED_DOOR_TWO : GameEvent.OPENED_DOOR_THREE)); 
-	  this.history.add(openEvent);
-	  if (this.status == GameStatus.WON) {
-		this.history.add(GameEvent.WON);
-	  } else {
-		this.history.add(GameEvent.LOST);
-	  }
-	
-	  return this.status;
+		GameEvent openEvent = (door.getId() == 1
+			? GameEvent.OPENED_DOOR_ONE
+			: (door.getId() == 2 ? GameEvent.OPENED_DOOR_TWO : GameEvent.OPENED_DOOR_THREE)); 
+		this.history.add(openEvent);
+		if (this.status == GameStatus.WON) {
+			this.history.add(GameEvent.WON);
+		} else {
+			this.history.add(GameEvent.LOST);
+		}
+
+		return this.status;
 	}
+
 }
