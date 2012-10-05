@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CorsInterceptor extends HandlerInterceptorAdapter {
 
 	private static final String ORIGIN = "Origin";
-	private static final String LOCATION = "Location";
-	private static final String ETAG = "ETag";
+	private static final String ALLOWED_METHODS = "GET, PUT, POST";
+	private static final String EXPOSED_HEADERS = "Location, ETag";
 	private static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	private static final String ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
@@ -40,13 +40,10 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 			// this is a preflight check
 			// our API only needs this for PUT requests, anything we can PUT we can also GET
 			response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN,origin);
-			response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, HttpMethod.GET.toString());
-			response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, HttpMethod.POST.toString());
-			response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, HttpMethod.PUT.toString());
+			response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, ALLOWED_METHODS);
 			response.setHeader(ACCESS_CONTROL_ALLOW_HEADERS,acRequestHeaders);
 			response.setHeader(ACCESS_CONTROL_MAX_AGE,CACHE_SECONDS);
-			response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, LOCATION);
-			response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, ETAG);
+			response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, EXPOSED_HEADERS);
 			
 			return false; // Don't continue processing, return to browser immediately
 		}
