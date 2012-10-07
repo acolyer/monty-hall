@@ -11,7 +11,8 @@ $>curl http://localhost:8080/monty-hall/games/2863629425905948275
 {"links":
 	[{"rel":"self","href":"http://localhost:8080/monty-hall/games/2863629425905948275"},
 	 {"rel":"doors","href":"http://localhost:8080/monty-hall/games/2863629425905948275/doors"},
-	 {"rel":"history","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"}],
+	 {"rel":"history","href":"http://localhost:8080/monty-hall/games/2863629425905948275/history"},
+	 {"rel":"clicks","href":"http://localhost:8080/monty-hall/games/2863629425905948275/clicks"}],
  "status":"AWAITING_INITIAL_SELECTION"}
 
 $>url http://localhost:8080/monty-hall/games/2863629425905948275/doors
