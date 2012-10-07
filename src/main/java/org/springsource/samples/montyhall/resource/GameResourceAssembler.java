@@ -20,6 +20,7 @@ public class GameResourceAssembler extends ResourceAssemblerSupport<Game, GameRe
 		resource.status = game.getStatus();
 		resource.add(linkTo(GameController.class).slash(game).slash("doors").withRel("doors"));
 		resource.add(linkTo(GameController.class).slash(game).slash("history").withRel("history"));
+		resource.add(linkTo(GameController.class).slash(game).slash("clicks").withRel("clicks"));
 		return resource;
 	}
 
