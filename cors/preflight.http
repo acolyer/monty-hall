@@ -1,0 +1,52 @@
+OPTIONS /games HTTP/1.1
+Host: monty-hall.cloudfoundry.com
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.7; en-US; rv:1.9.2.10) Gecko/20100914 Firefox/3.6.10
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 115
+Connection: keep-alive
+Origin: null
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: x-test-1349811727014
+
+->
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 09 Oct 2012 19:42:07 GMT
+Connection: keep-alive
+Keep-Alive: timeout=20
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, PUT, POST
+Access-Control-Allow-Headers: x-test-1349811727014
+Access-Control-Max-Age: 300
+Access-Control-Expose-Headers: Location, ETag
+Allow: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS
+Content-Length: 0
+
+POST /games HTTP/1.1
+Host: monty-hall.cloudfoundry.com
+User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.7; en-US; rv:1.9.2.10) Gecko/20100914 Firefox/3.6.10
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+Keep-Alive: 115
+Connection: keep-alive
+X-Test-1349811727014: 1349811727014
+Origin: null
+Pragma: no-cache
+Cache-Control: no-cache
+Content-Length: 0
+
+->
+HTTP/1.1 201 Created
+Server: nginx
+Access-Control-Expose-Headers: Location, ETag
+Date: Tue, 09 Oct 2012 19:42:07 GMT
+Keep-Alive: timeout=20
+Location: http://monty-hall.cloudfoundry.com/games/6377614539704418927
+Access-Control-Allow-Origin: *
+Connection: keep-alive
+Content-Length: 0

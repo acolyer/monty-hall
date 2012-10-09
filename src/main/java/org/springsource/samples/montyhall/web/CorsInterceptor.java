@@ -25,6 +25,7 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 	                       ModelAndView modelAndView) {
 		// Our REST API is accessible from anywhere
 		response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+		response.setHeader(ACCESS_CONTROL_EXPOSE_HEADERS, EXPOSED_HEADERS);
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 		if (hasValue(origin) && hasValue(acRequestMethod)) {
 			// this is a preflight check
 			// our API only needs this for PUT requests, anything we can PUT we can also GET
-			response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN,origin);
+			response.setHeader(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
 			response.addHeader(ACCESS_CONTROL_ALLOW_METHODS, ALLOWED_METHODS);
 			response.setHeader(ACCESS_CONTROL_ALLOW_HEADERS,acRequestHeaders);
 			response.setHeader(ACCESS_CONTROL_MAX_AGE,CACHE_SECONDS);
