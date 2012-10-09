@@ -69,9 +69,9 @@ public class GameController {
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public HttpEntity<GameResource> show(@PathVariable Long id) {
 		Game game = this.repository.findById(id);
-		if (game == null) { 
+		if (game == null) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		GameResource resource = this.gameResourceAssembler.toResource(game);
@@ -83,7 +83,7 @@ public class GameController {
 		Game game = this.repository.findById(id);
 		if (game == null) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<DoorsResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<DoorsResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		DoorsResource resource = this.doorsResourceAssembler.toResource(game);
@@ -95,7 +95,7 @@ public class GameController {
 		Game game = this.repository.findById(gameId);
 		if (game == null || doorId < 1 || doorId > 3) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		Door door = game.getDoors().get((int)(doorId - 1));
@@ -110,7 +110,7 @@ public class GameController {
 		Game game = this.repository.findById(gameId);
 		if (game == null || doorId < 1 || doorId > 3) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<DoorResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		Door door = game.getDoors().get((int)(doorId - 1));
@@ -124,7 +124,7 @@ public class GameController {
 		} 
 		catch (IllegalStateException ex) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<DoorResource>(headers, HttpStatus.CONFLICT);					
+			return new ResponseEntity<DoorResource>(headers, HttpStatus.CONFLICT);
 		}
 
 		DoorResource resource = this.doorResourceAssembler.toResource(game,door);
@@ -136,7 +136,7 @@ public class GameController {
 		Game game = this.repository.findById(id);
 		if (game == null) {
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<HistoryResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<HistoryResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		HistoryResource resource = this.historyResourceAssembler.toResource(game);
@@ -150,13 +150,13 @@ public class GameController {
 		Game game = this.repository.findById(id);
 		if (game == null) { 
 			HttpHeaders headers = new HttpHeaders();
-			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);		
+			return new ResponseEntity<GameResource>(headers, HttpStatus.NOT_FOUND);
 		}
 
 		this.clickStreamService.recordClickStream(game,clicks);
 
 		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<GameResource>(headers, HttpStatus.CREATED);		
+		return new ResponseEntity<GameResource>(headers, HttpStatus.CREATED);
 	}
 
 	/** OPTIONS processing for CORS */
